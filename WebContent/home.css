@@ -1,0 +1,207 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+    -webkit-border-radius: 0 !important;
+    -moz-border-radius: 0 !important;
+    border-radius: 0 !important;
+}
+
+ul{
+	list-style: none;
+}
+
+.jumbotron{
+    width: 100%;
+    text-align: center;
+    color: white;
+    background: url('images/cover.png') no-repeat center center;
+    height: 100%;
+    background-size: cover;
+}
+
+.jumbotron > p{
+    margin-top: 13.5em;
+}
+.navbar-brand strong{
+    font-size: 1.6em;
+    font-family: 'Sedgwick Ave Display', cursive;
+}
+
+.navbar-brand
+
+#videosSearchSection{
+	display:none;
+}
+.table > tbody > tr > td {
+    vertical-align: middle;
+}
+
+.table > tbody > tr > th {
+    vertical-align: middle;
+}
+
+h1{
+    margin-bottom: 2em;
+}
+
+main{
+    padding-left: 2.5%;
+    padding-right: 2.5%;
+    width: 100%;
+}
+
+.col-xs-12,
+.col-sm-4,
+.col-md-15,
+.col-lg-15{
+    margin-bottom: 2.5em;
+}
+.embed-responsive{
+    border-radius: 2.5%;
+}
+
+.col-md-15,
+.col-lg-15 {
+    position: relative;
+    min-height: 1px;
+    padding-right: 0.1em;
+    padding-left: 0.1em;
+}
+
+@media (min-width: 992px) {
+    .col-md-15 {
+        width: 20%;
+        float: left;
+    }
+}
+
+@media (min-width: 1200px) {
+    .col-lg-15 {
+        width: 20%;
+        float: left;
+    }
+}
+
+footer {
+	background: #EEE;
+	border-top: 1px solid #DDDDDD;
+	padding-top: 1em;
+    padding-bottom: 1em;
+    text-align: center;
+}
+
+.videoUserSpan{
+    display: block;
+}
+
+a:hover{
+    text-decoration: none;
+}
+
+.ghostBtn{
+
+    background: transparent;
+    border: 1px solid;
+	color: #F2F2F2;
+
+	/* CSS Transition */
+	-webkit-transition: background .2s ease-in-out, border .2s ease-in-out;
+	-moz-transition: background .2s ease-in-out, border .2s ease-in-out;
+	-ms-transition: background .2s ease-in-out, border .2s ease-in-out;
+	-o-transition: background .2s ease-in-out, border .2s ease-in-out;
+    transition: background .2s ease-in-out, border .2s ease-in-out;
+
+}
+
+
+.ghostBtn:focus,
+.ghostBtn:active
+.ghostBtn:hover,
+{
+    background: transparent;
+}
+
+.navbar{
+    background-color: rgba(0,0,0,0.5);
+    border: none;
+}
+.navbar .navbar-nav > li > a,
+.navbar .navbar-nav > li > a:hover,
+.navbar .navbar-nav > li > a:focus,
+.navbar .navbar-nav,
+.navbar-form,
+.navbar .navbar-brand,
+.navbar .navbar-brand:hover,
+.navbar .navbar-brand:focus
+{
+    color: white;
+}
+
+#mainSearchForm > .input-group{
+    margin-right: 1em;
+}
+
+.mouseEntered{
+    border-left: 1px solid greenyellow;
+    border-right: 1px solid greenyellow;
+}
+
+.smallThumbnail{
+	object-fit:cover;
+    width: 2.5em;
+    height: 2.5em;
+    margin-right : 0.5em;
+    border-radius: 50% !important;
+}
+
+.bigThumbnail{
+	object-fit: cover;
+    display: block;
+    width:  13.5em;
+    height: 13.5em;
+    border-radius: 50% !important;
+}
+
+.errorMsgLabel{
+	font-weight: bold;
+	color: red;
+}
+
+textarea{
+    resize: none;
+}
+
+#uploadedVideosList > .videoDiv > iframe{
+    width: 100%;
+    height: 5em;
+}
+
+#uploadedVideosList > li{
+    margin-bottom: 1.5em;
+}
+
+#subscribedsList{
+    padding-right: 3em;
+}
+
+.deleteVideoBtn{
+    display: block;
+}
+
+#sortUploadedSelect{
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
+#uploadImageForm{
+    width: 15%;
+}
+
+#likesSpan{color : green; font-weight: bold;}
+#dislikesSpan{color: red; font-weight: bold;}
+#sortSelect{margin-bottom: 1em; width: 10em;}
+#limitSelect{width: 10em;}
+

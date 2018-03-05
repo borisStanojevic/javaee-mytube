@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>myTube</title>
+    <link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="home.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Sedgwick+Ave+Display" rel="stylesheet">
+    <script src="jquery-2.1.4.min.js"></script>
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="home.js"></script>
+</head>
+
+<body>
+
+    <div class="container-fluid">
+
+        <nav class="navbar navbar-default navbar-fixed-top">
+            <div class="container-fluid">
+                <!-- Div koji predstavlja logo stranice -->
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="home.html">
+                        <span class="glyphicon glyphicon-facetime-video"></span>
+                        <strong> myTube</strong>
+                    </a>
+                </div>
+
+                <!-- Lista koja predstavlja navigaciju -->
+                <ul class="nav navbar-nav navbar-left">
+                    <li>
+                        <a href="home.html">
+                            <span class="glyphicon glyphicon-home"></span> Home</a>
+                    </li>
+                    <li>
+                        <a style="display: none;" id="profileLink" href="">
+                        </a>
+                    </li>
+                </ul>
+
+                <!-- Linkovi, odnosno dugmad, za login i sign up -->
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a id="loginLink" href="#">
+                            <span class="glyphicon glyphicon-log-in"></span> Login</a>
+                    </li>
+                    <li>
+                        <a style="display:none" id="logoutLink" href="LogoutServlet">
+                            <span class="glyphicon glyphicon-log-out"></span> Log Out
+                        </a>
+                    </li>
+                    <li>
+                        <a id="signUpLink" href="#">
+                            <span class="glyphicon glyphicon-user"></span> Sign Up</a>
+                    </li>
+                </ul>
+
+                <!-- Kompletna search forma sa combo boxom za izbor search kriterijuma -->
+                <form id="mainSearchForm" class="navbar-form navbar-right">
+                    <div class="input-group">
+                        <input name="mainSearchInput" type="text" class="form-control" placeholder="Search for ...">
+                        <div class="input-group-btn">
+                            <button id="mainSearchBtn" class="btn btn-default" type="button">
+                                <i class="glyphicon glyphicon-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <label class="checkbox-inline">
+                        <input name="nameCb" type="checkbox">Name</label>
+                    <label class="checkbox-inline">
+                        <input name="ownerCb" type="checkbox">User</label>
+                    <label class="checkbox-inline">
+                        <input name="commentContentCb" type="checkbox">Comment</label>
+                </form>
+            </div>
+        </nav>
+    </div>
+
+
+    <!-- Jumbotron/istovremeno i zaglavje stranice -->
+    <div class="jumbotron">
+        <p>
+            <button class="btn btn-primary btn-lg ghostBtn">Start watching !</button>
+        </p>
+    </div>
+
+    <div class="modal fade" id="signUpDialog" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Sign Up</h4>
+                </div>
+                <div class="modal-body">
+                    <form id="signUpForm" action="./SignupServlet" method="POST" enctype="multipart/form-data" role="form">
+                        <div class="form-group">
+                            <input name="username" type="text" class="form-control" placeholder="Enter Username" required>
+                        </div>
+                        <div class="form-group">
+                            <input name="password" type="password" class="form-control" placeholder="Enter Password" required>
+                        </div>
+                        <div class="form-group">
+                            <input name="repeatedPassword" type="password" class="form-control" placeholder="Repeat Password" required>
+                        </div>
+                        <div class="form-group">
+                            <input name="email" type="email" class="form-control" placeholder="Email" required>
+                        </div>
+                        <div class="form-group">
+                            Upload Thumbnail :
+                            <input type="file" multipl accept="image/*" name="thumbnail" class="form-control">
+                        </div>
+                        <label class='errorMsgLabel'></label>
+                        <button id="signUpBtn" class="btn btn-success btn-block">
+                            <span class="glyphicon glyphicon-user"></span> Sign Up</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="loginDialog" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Login</h4>
+                </div>
+                <div class="modal-body">
+                    <form role="form">
+                        <div class="form-group">
+                            <input name="username" type="text" class="form-control" placeholder="Enter Username" required>
+                        </div>
+                        <div class="form-group">
+                            <input name="password" type="password" class="form-control" placeholder="Enter Password" required>
+                        </div>
+                        <label class='errorMsgLabel'></label>
+                        <button id="loginBtn" class="btn btn-success btn-block">
+                            <span class="glyphicon glyphicon-log-in"></span> Login</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div style="margin-top: 5em;" class="container-fluid">
+        <button id='showSearchBtn' type="button" class="btn btn-default btn-lg">
+            <span class="glyphicon glyphicon-search"></span>
+        </button>
+    </div>
+
+    <br>
+
+    <div class="container-fluid">
+        <section id="videosSearchSection">
+            <div class="well" style="width: 20%">
+                <form style="width: 100%">
+
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Video Name" name='videoNameInput'>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="User" name='videoOwnerInput'>
+                    </div>
+                    <div class="form-group">
+                        <input type="number" class="form-control" name='minViewsInput' min="0" placeholder="Views Min">
+                    </div>
+                    <div class="form-group">
+                        <input type="number" class="form-control" name='maxViewsInput' placeholder="Views Max">
+                    </div>
+                    <div class="form-group">
+                        <div class='input-group date' id='minDateTimeInput'>
+                            <input type='text' class="form-control" placeholder="From" />
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-calendar"></span>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class='input-group date' id='maxDateTimeInput'>
+                            <input type='text' class="form-control" placeholder="Up Until" />
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-calendar"></span>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <a href="#" id="advancedSearchBtn" type="button" class="btn btn-default btn-md">Search</a>
+                    </div>
+
+                </form>
+            </div>
+        </section>
+        <aside>
+            <label>Sort by</label>
+            <select id="sortSelect" class="form-control" title="Sort by">
+                <option value="viewsDesc">Views, DESC</option>
+                <option value="viewsAsc">Views, ASC</option>
+                <option value="videoNameAsc">Name, A-Z</option>
+                <option value="videoNameDesc">Name, Z-A</option>
+                <option value="videoOwnerAsc">User, A-Z</option>
+                <option value="videoOwnerDesc">User, Z-A</option>
+                <option value="dateTimeAsc">Upload Date, ASC</option>
+                <option value="dateTimeDesc">Upload Date, DESC</option>
+            </select>
+        </aside>
+    </div>
+
+
+    <!-- Sekcija glavnog sadrzaja u kojoj ce biti combo box za sortiranje, side search bar, lista videa i paginacija -->
+    <main id="main">
+
+        <h1>Most popular</h1>
+
+        <section id="top5VideosSection">
+            <div class="row">
+
+            </div>
+        </section>
+
+        <!-- Linija koja razdvaja most popular videos od ostalih -->
+        <hr>
+
+        <h1>Videos</h1>
+
+        <section id="videosSection">
+            <div class="row">
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <div class="container-fluid">
+            <p> Copyright ©
+                <strong>myTube</strong>. All right reserved. </p>
+        </div>
+    </footer>
+</body>
+
+</html>

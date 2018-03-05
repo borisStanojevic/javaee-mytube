@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="home.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Sedgwick+Ave+Display" rel="stylesheet">
+    <script src="jquery-2.1.4.min.js"></script>
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="video.js"></script>
+    <title>Document</title>
+</head>
+
+<body>
+
+    <div class="container-fluid">
+
+        <nav class="navbar navbar-default navbar-fixed-top">
+            <div class="container-fluid">
+                <!-- Div koji predstavlja logo stranice -->
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="home.html">
+                        <span class="glyphicon glyphicon-facetime-video"></span>
+                        <strong> myTube</strong>
+                    </a>
+                </div>
+
+                <!-- Lista koja predstavlja navigaciju -->
+                <ul class="nav navbar-nav navbar-left">
+                    <li>
+                        <a href="home.html">
+                            <span class="glyphicon glyphicon-home"></span> Home</a>
+                    </li>
+                    <li>
+                        <a style="display: none;" id="profileLink" href="">
+                        </a>
+                    </li>
+                </ul>
+
+                <!-- Linkovi, odnosno dugmad, za login i sign up -->
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a id="loginLink" href="#">
+                            <span class="glyphicon glyphicon-log-in"></span> Login</a>
+                    </li>
+                    <li>
+                        <a style="display:none" id="logoutLink" href="LogoutServlet">
+                            <span class="glyphicon glyphicon-log-out"></span> Log Out
+                        </a>
+                    </li>
+                    <li>
+                        <a id="signUpLink" href="#">
+                            <span class="glyphicon glyphicon-user"></span> Sign Up</a>
+                    </li>
+                </ul>
+
+                <!-- Kompletna search forma sa combo boxom za izbor search kriterijuma -->
+                <form id="mainSearchForm" class="navbar-form navbar-right">
+                    <div class="input-group">
+                        <input name="mainSearchInput" type="text" class="form-control" placeholder="Search for ...">
+                        <div class="input-group-btn">
+                            <button id="mainSearchBtn" class="btn btn-default" type="button">
+                                <i class="glyphicon glyphicon-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <label class="checkbox-inline">
+                        <input name="nameCb" type="checkbox">Name</label>
+                    <label class="checkbox-inline">
+                        <input name="ownerCb" type="checkbox">User</label>
+                    <label class="checkbox-inline">
+                        <input name="commentContentCb" type="checkbox">Comment</label>
+                </form>
+            </div>
+        </nav>
+    </div>
+
+
+    <div class="modal fade" id="deleteVideoAlert" role="dialog">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Failed</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Please delete all comments that reference this video.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="signUpDialog" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Sign Up</h4>
+                </div>
+                <div class="modal-body">
+                    <form id="signUpForm" action="./SignupServlet" method="POST" enctype="multipart/form-data" role="form">
+                        <div class="form-group">
+                            <input name="username" type="text" class="form-control" placeholder="Enter Username" required>
+                        </div>
+                        <div class="form-group">
+                            <input name="password" type="password" class="form-control" placeholder="Enter Password" required>
+                        </div>
+                        <div class="form-group">
+                            <input name="repeatedPassword" type="password" class="form-control" placeholder="Repeat Password" required>
+                        </div>
+                        <div class="form-group">
+                            <input name="email" type="email" class="form-control" placeholder="Email" required>
+                        </div>
+                        <div class="form-group">
+                            Upload Thumbnail :
+                            <input type="file" multipl accept="image/*" name="thumbnail" class="form-control">
+                        </div>
+                        <label class='errorMsgLabel'></label>
+                        <button id="signUpBtn" class="btn btn-success btn-block">
+                            <span class="glyphicon glyphicon-user"></span> Sign Up</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="loginDialog" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Login</h4>
+                </div>
+                <div class="modal-body">
+                    <form role="form">
+                        <div class="form-group">
+                            <input name="username" type="text" class="form-control" placeholder="Enter Username" required>
+                        </div>
+                        <div class="form-group">
+                            <input name="password" type="password" class="form-control" placeholder="Enter Password" required>
+                        </div>
+                        <label class='errorMsgLabel'></label>
+                        <button id="loginBtn" class="btn btn-success btn-block">
+                            <span class="glyphicon glyphicon-log-in"></span> Login</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+
+
+        <main id="main">
+            <div style="margin-top: 10em;" id="mainDiv">
+                <div class="video embed-responsive embed-responsive-16by9">
+                    <iframe class="embed-responsive-item">
+                    </iframe>
+                </div>
+                <br>
+                <button id="toggleEditBtn" type="button" class="btn btn-info">
+                    <span class="glyphicon glyphicon-menu-down"></span>
+                </button>
+                <button id='deleteVideoBtn' type='button' class='btn btn-danger'>
+                    <span class='glyphicon glyphicon-trash'></span> Delete</button>
+                <br>
+
+                <section id='editVideoSection' style="display: none">
+                    <form style="width: 30%">
+                        <br>
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="name">
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="description">
+                        </div>
+                        <div class="form-group">
+                            <select class="form-control" id="visibility">
+                                <option value="PUBLIC"> Public</option>
+                                <option value="UNLISTED"> Unlisted</option>
+                                <option value="PRIVATE"> Private</option>
+                            </select>
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" id="commentsAllowed"> Allow Comments</label>
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" id="ratingVisible"> Rating Visible</label>
+                        </div>
+                        <span>
+                            <button id='editVideoBtn' type='button' class='btn btn-warning'>
+                                <span class='glyphicon glyphicon-edit'></span> Edit</button>
+                            <!-- Block dugme treba samo admin da vidi -->
+                            <button id='blockVideoBtn' type='button' class='btn btn-danger'>
+                            </button>
+                        </span>
+                        <label class="errorMsgLabel"></label>
+                    </form>
+                </section>
+
+                <h2></h2>
+                <span id="viewsSpan"></span>
+                <span id="ownerSpan">
+                    <img src="" class="smallThumbnail">
+                    <a href=''></a>
+                </span>
+                <span id="dtUploadedSpan"></span>
+                <p id="descriptionParagraph"></p>
+                <div id="ratingDiv">
+                    <button id="likeVideoBtn" type="button" class="btn btn-default btn-md">
+                    </button>
+                    <span id="likesSpan"></span>
+                    <span id="dislikesSpan"></span>
+                </div>
+                <button style="margin-top: 1em" id="subscribeBtn" type="button" class="btn btn-primary btn-lg" data-subscribed=''>Subscribe</button>
+            </div>
+        </main>
+
+        <hr>
+
+        <section id="commentsSection">
+            <div class="form-group">
+                <br>
+                <textarea id="myCommentInput" class="form-control" rows="5"></textarea>
+                <button id="commentBtn" type="button" class="btn btn-primary">
+                    <span class='glyphicon glyphicon-comment'></span> Comment</button>
+            </div>
+            <hr>
+            <div class="form-group">
+                <select id="sortSelect" class="form-control">
+                    <option value="ratingDesc">Rating, DESC</option>
+                    <option value="ratingAsc">Rating, ASC</option>
+                    <option value="dtPostedAsc">Oldest First</option>
+                    <option value="dtPostedDesc">Newest First</option>
+                </select>
+
+                <select id="limitSelect" class="form-control">
+                    <option value="all">All</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                </select>
+            </div>
+
+
+            <div class="modal fade" id="editCommentDialog" role="dialog">
+                <div class="modal-dialog modal-large">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Edit Comment</h4>
+                        </div>
+                        <div class="modal-body">
+                            <p>
+                                <form>
+                                    <input type="hidden" name="index">
+                                    <input type="hidden" name="id">
+                                    <textarea style="width: 100%" name="content" rows="5"></textarea>
+                                </form>
+                            </p>
+                        </div>
+                        <div class="modal-footer">
+                            <label class="errorMsgLabel"></label>
+                            <button id="editCommentSubmit" type="button" class="btn btn-default" data-dismiss="modal">Edit</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal fade" id="deleteCommentDialog" role="dialog">
+                <div class="modal-dialog modal-large">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Delete Comment</h4>
+                        </div>
+                        <div class="modal-body">
+                            <input type="hidden" name="index">
+                            <input type="hidden" name="id">
+                            <p>
+                                Are you sure you want to delete this comment ?
+                            </p>
+                        </div>
+                        <div class="modal-footer">
+                            <label class="errorMsgLabel"></label>
+                            <button id="deleteCommentSubmit" type="button" class="btn btn-default" data-dismiss="modal">Yes</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <ul id="commentsList">
+                <!-- Dalje dinamicki generisem komentare koji se ticu ovog videa -->
+                <!-- Komentari ce biti oblika
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                 <img id="commentatorThumbnail" class="img-circle" src="Defaultni thumbnail">  koja ce biti 35px * 35px 
+                                <a href="user.html?usernameKorisnika">Ime Korisnika</a>
+                            </div>
+                            <div class="panel-body">
+                                <button id="likeCommentBtn" type="button" class="btn btn-default btn-sm" value="like">
+                                    <span class="glyphicon glyphicon-thumbs-up">Like</span>
+                                </button>
+                            </div>
+                        </div>  
+                    -->
+            </ul>
+        </section>
+    </div>
+
+    <footer>
+        <div class="container-fluid">
+            <p> Copyright ©
+                <strong>myTube</strong>. All right reserved. </p>
+        </div>
+    </footer>
+
+</body>
+
+</html>

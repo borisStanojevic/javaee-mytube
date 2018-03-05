@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="home.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Sedgwick+Ave+Display" rel="stylesheet">
+    <script src="jquery-2.1.4.min.js"></script>
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="user.js"></script>
+    <title>Document</title>
+</head>
+
+<body>
+
+    <div class="container-fluid">
+
+        <nav class="navbar navbar-default navbar-fixed-top">
+            <div class="container-fluid">
+                <!-- Div koji predstavlja logo stranice -->
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="home.html">
+                        <span class="glyphicon glyphicon-facetime-video"></span>
+                        <strong> myTube</strong>
+                    </a>
+                </div>
+
+                <!-- Lista koja predstavlja navigaciju -->
+                <ul class="nav navbar-nav navbar-left">
+                    <li>
+                        <a href="home.html">
+                            <span class="glyphicon glyphicon-home"></span> Home</a>
+                    </li>
+                    <li>
+                        <a style="display: none;" id="profileLink" href="">
+                        </a>
+                    </li>
+                </ul>
+
+                <!-- Linkovi, odnosno dugmad, za login i sign up -->
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a id="loginLink" href="#">
+                            <span class="glyphicon glyphicon-log-in"></span> Login</a>
+                    </li>
+                    <li>
+                        <a style="display:none" id="logoutLink" href="LogoutServlet">
+                            <span class="glyphicon glyphicon-log-out"></span> Log Out
+                        </a>
+                    </li>
+                    <li>
+                        <a id="signUpLink" href="#">
+                            <span class="glyphicon glyphicon-user"></span> Sign Up</a>
+                    </li>
+                </ul>
+
+                <!-- Kompletna search forma sa combo boxom za izbor search kriterijuma -->
+                <form id="mainSearchForm" class="navbar-form navbar-right">
+                    <div class="input-group">
+                        <input name="mainSearchInput" type="text" class="form-control" placeholder="Search for ...">
+                        <div class="input-group-btn">
+                            <button id="mainSearchBtn" class="btn btn-default" type="button">
+                                <i class="glyphicon glyphicon-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <label class="checkbox-inline">
+                        <input name="nameCb" type="checkbox">Name</label>
+                    <label class="checkbox-inline">
+                        <input name="ownerCb" type="checkbox">User</label>
+                    <label class="checkbox-inline">
+                        <input name="commentContentCb" type="checkbox">Comment</label>
+                </form>
+            </div>
+        </nav>
+    </div>
+
+    <div class="jumbotron">
+        <p>
+            <button class="btn btn-primary btn-lg ghostBtn">Start watching !</button>
+        </p>
+    </div>
+
+    <div class="modal fade" id="signUpDialog" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Sign Up</h4>
+                </div>
+                <div class="modal-body">
+                    <form id="signUpForm" action="./SignupServlet" method="POST" enctype="multipart/form-data" role="form">
+                        <div class="form-group">
+                            <input name="username" type="text" class="form-control" placeholder="Enter Username" required>
+                        </div>
+                        <div class="form-group">
+                            <input name="password" type="password" class="form-control" placeholder="Enter Password" required>
+                        </div>
+                        <div class="form-group">
+                            <input name="repeatedPassword" type="password" class="form-control" placeholder="Repeat Password" required>
+                        </div>
+                        <div class="form-group">
+                            <input name="email" type="email" class="form-control" placeholder="Email" required>
+                        </div>
+                        <div class="form-group">
+                            Upload Thumbnail :
+                            <input type="file" multiple accept="image/*" name="thumbnail" class="form-control">
+                        </div>
+                        <label class='errorMsgLabel'></label>
+                        <button id="signUpBtn" class="btn btn-success btn-block">
+                            <span class="glyphicon glyphicon-user"></span> Sign Up</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="deleteVideoAlert" role="dialog">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Failed</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Please delete all comments that reference this video.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="loginDialog" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Login</h4>
+                </div>
+                <div class="modal-body">
+                    <form id="#loginForm" role="form">
+                        <div class="form-group">
+                            <input name="username" type="text" class="form-control" placeholder="Enter Username" required>
+                        </div>
+                        <div class="form-group">
+                            <input name="password" type="password" class="form-control" placeholder="Enter Password" required>
+                        </div>
+                        <label class='errorMsgLabel'></label>
+                        <button id="loginBtn" class="btn btn-success btn-block">
+                            <span class="glyphicon glyphicon-log-in"></span> Login</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="deleteUserAlert" role="dialog">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Failed</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Please delete all videos that reference this user.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="uploadVideoDialog" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Upload</h4>
+                </div>
+                <div class="modal-body">
+                    <form role="form">
+                        <div class="form-group">
+                            <input name="name" type="text" class="form-control" placeholder="Video Name" required>
+                        </div>
+                        <div class="form-group">
+                            <input name="url" type="url" class="form-control" placeholder="Url" required>
+                        </div>
+                        <div class="form-group">
+                            <input name="description" type="text" class="form-control" placeholder="Description">
+                        </div>
+                        <div class="form-group">
+                            <select id="visibilitySelect">
+                                <option value="PUBLIC"> Public</option>
+                                <option value="UNLISTED"> Unlisted</option>
+                                <option value="PRIVATE"> Private</option>
+                            </select>
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                <input name="commentsAllowed" type="checkbox" value="">Allow Comments</label>
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                <input name="ratingVisible" type="checkbox" value="">Rating Visible</label>
+                        </div>
+                        <label class='errorMsgLabel'></label>
+                        <button id="uploadVideoBtn" class="btn btn-primary btn-block">
+                            <span class="glyphicon glyphicon-upload"></span> Upload
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div style="margin-top: 7em;" class="container">
+
+        <main>
+            <img src="" class="bigThumbnail">
+            <h1 id="username"></h1>
+            <form id="uploadImageForm" action="UploadImageServlet" method="POST" enctype="multipart/form-data" role="form">
+                <input type="hidden" name="username"> Upload Thumbnail :
+                <input type="file" multiple accept="image/*" name="thumbnail">
+                <div class="form-group">
+                    <button id="uploadImageBtn" type="button" class="btn btn-default"> Upload</button>
+                </div>
+                <label class="errorMsgLabel"></label>
+            </form>
+            <span style="display:block;content:'';clear:both">
+                <span id="subscribersSpan" style='float: left'></span>
+                <button style="float: right" id="subscribeBtn" type="button" class="btn btn-primary btn-lg"></button>
+            </span>
+            <p id="channelInfo">
+            </p>
+            <button id="showEditUserBtn" type="button" class="btn btn-info">Edit</button>
+            <button id="deleteUserBtn" type="button" class="btn btn-danger" value="block">Delete</button>
+            <section style="display: none;" id='editChannelSection'>
+                <form id="editUserForm" style="width: 30%">
+                    <br>
+                    <div class="form-group">
+                        <input name='firstName' type="text" class="form-control" placeholder="First Name">
+                    </div>
+                    <div class="form-group">
+                        <input name='lastName' type="text" class="form-control" placeholder="Last Name">
+                    </div>
+                    <div class="form-group">
+                        <input name='password' type="text" class="form-control" placeholder="Password">
+                    </div>
+                    <div class="form-group">
+                        <input name='channelDescription' type="text" class="form-control" placeholder="Channel Description">
+                    </div>
+                    <div class="form-group">
+                        <select class="form-control" id="roleSelect">
+                            <option value="USER"> User</option>
+                            <option value="ADMIN"> Admin</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <input name='email' type="text" class="form-control" placeholder="Email">
+                    </div>
+                    <label class="errorMsgLabel"></label>
+                    <span>
+                        <button id='editUserBtn' type='button' class='btn btn-warning'>
+                            <span class='glyphicon glyphicon-edit'></span> Edit</button>
+                        <!-- Block dugme treba samo admin da vidi -->
+                        <button id="blockUserBtn" type="button" class="btn btn-danger" value="block">Block</button>
+                    </span>
+                </form>
+            </section>
+        </main>
+
+        <hr>
+
+    </div>
+
+    <div class="container" style="display:block;content:'';clear:both">
+        <section style="width : 40%;float: left">
+            <button id="showUploadVideoBtn" type="button" class="btn btn-success btn-md">
+                <span class="glyphicon glyphicon-upload"></span> Upload
+            </button>
+
+            <br>
+            <h3>Uploaded Videos</h3>
+            <select style="width: 10em" id="sortUploadedSelect" class="form-control">
+                <option value="dtUploadedDesc"> Newest First</option>
+                <option value="dtUploadedAsc"> Oldest First</option>
+                <option value="viewsAsc"> Views, Asc</option>
+                <option value="viewsDesc"> Views, Desc</option>
+            </select>
+            <br>
+            <ul id="uploadedVideosList">
+                <!--Ovdje kacim dinamicki kreirane <li> videa koje je korisnik cija se stranica posmatra, uploadovao  -->
+            </ul>
+        </section>
+        <aside style="margin-top: 2.4em;width : 20%;float: right">
+            <h3>Following</h3>
+            <br>
+            <ul id="subscribedsList">
+
+                <!-- Ovdje kacim dinamicki kreirane <li> korisnika koje korisnik cija se stranica posmatra, prati -->
+            </ul>
+        </aside>
+    </div>
+</body>
+
+</html>
